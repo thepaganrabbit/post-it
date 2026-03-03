@@ -1,6 +1,22 @@
 # Build stage
 FROM node:22-alpine AS builder
 
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
+ARG NO_PROXY
+ARG http_proxy
+ARG https_proxy
+ARG no_proxy
+
+ENV HTTP_PROXY=${HTTP_PROXY}
+ENV HTTPS_PROXY=${HTTPS_PROXY}
+ENV NO_PROXY=${NO_PROXY}
+ENV http_proxy=${http_proxy}
+ENV https_proxy=${https_proxy}
+ENV no_proxy=${no_proxy}
+ENV NPM_CONFIG_STRICT_SSL=false
+ENV NODE_TLS_REJECT_UNAUTHORIZED=0
+
 WORKDIR /app
 
 # Copy package files
@@ -18,10 +34,26 @@ RUN npm run build
 # Production stage
 FROM node:22-alpine
 
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
+ARG NO_PROXY
+ARG http_proxy
+ARG https_proxy
+ARG no_proxy
+
+ENV HTTP_PROXY=${HTTP_PROXY}
+ENV HTTPS_PROXY=${HTTPS_PROXY}
+ENV NO_PROXY=${NO_PROXY}
+ENV http_proxy=${http_proxy}
+ENV https_proxy=${https_proxy}
+ENV no_proxy=${no_proxy}
+ENV NPM_CONFIG_STRICT_SSL=false
+ENV NODE_TLS_REJECT_UNAUTHORIZED=0
+
 WORKDIR /app
 
 # Install dumb-init to handle signals properly
-RUN apk add --no-cache dumb-init
+RUN apk add --no-cache --no-check-certificate dumb-init
 
 # Install only production dependencies
 COPY package*.json ./

@@ -3,6 +3,7 @@ version: '3.8'
 services:
   mongodb:
     image: mongo:7
+    pull_policy: always
     container_name: postit-mongodb
     restart: unless-stopped
     environment:

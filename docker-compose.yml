@@ -4,6 +4,7 @@ services:
   # MongoDB Database
   mongodb:
     image: mongo:7
+    pull_policy: always
     container_name: postit-mongodb
     restart: unless-stopped
     environment:
@@ -29,8 +30,16 @@ services:
     build:
       context: ./postit-back
       dockerfile: Dockerfile
+      args:
+        HTTP_PROXY: ${HTTP_PROXY:-}
+        HTTPS_PROXY: ${HTTPS_PROXY:-}
+        NO_PROXY: ${NO_PROXY:-}
+        http_proxy: ${http_proxy:-}
+        https_proxy: ${https_proxy:-}
+        no_proxy: ${no_proxy:-}
     container_name: postit-backend
     restart: unless-stopped
+    pull_policy: always
     ports:
       - "3002:3002"
     environment:
@@ -41,6 +50,14 @@ services:
       DATABASE_USERNAME: admin
       DATABASE_PASSWORD: password123
       DATABASE_NAME: postit
+      HTTP_PROXY: ${HTTP_PROXY:-}
+      HTTPS_PROXY: ${HTTPS_PROXY:-}
+      NO_PROXY: ${NO_PROXY:-}
+      http_proxy: ${http_proxy:-}
+      https_proxy: ${https_proxy:-}
+      no_proxy: ${no_proxy:-}
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
+      NPM_CONFIG_STRICT_SSL: "false"
     depends_on:
       mongodb:
         condition: service_healthy
@@ -55,13 +72,29 @@ services:
     build:
       context: ./postit-front
       dockerfile: Dockerfile
+      args:
+        HTTP_PROXY: ${HTTP_PROXY:-}
+        HTTPS_PROXY: ${HTTPS_PROXY:-}
+        NO_PROXY: ${NO_PROXY:-}
+        http_proxy: ${http_proxy:-}
+        https_proxy: ${https_proxy:-}
+        no_proxy: ${no_proxy:-}
     container_name: postit-frontend
     restart: unless-stopped
+    pull_policy: always
     ports:
       - "3000:3000"
     environment:
       NODE_ENV: production
       NEXT_PUBLIC_API_URL: http://localhost:3002
+      HTTP_PROXY: ${HTTP_PROXY:-}
+      HTTPS_PROXY: ${HTTPS_PROXY:-}
+      NO_PROXY: ${NO_PROXY:-}
+      http_proxy: ${http_proxy:-}
+      https_proxy: ${https_proxy:-}
+      no_proxy: ${no_proxy:-}
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
+      NPM_CONFIG_STRICT_SSL: "false"
     depends_on:
       - backend
     networks:

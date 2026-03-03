@@ -16,6 +16,8 @@ From the root directory of the project, run:
 docker-compose up --build
 ```
 
+This setup is configured to work in basic/non-production proxy environments without custom CA certificate wiring.
+
 This command will:
 1. Build the backend container
 2. Build the frontend container
@@ -48,6 +50,26 @@ docker-compose down -v
 ```bash
 docker-compose up -d --build
 ```
+
+## Proxy-Friendly (No Custom Cert Setup)
+
+The Dockerfiles and compose file pass proxy variables automatically if present, and disable strict TLS checks for package installs in containers.
+
+If your shell already has proxy variables set, just run:
+
+```bash
+docker-compose up --build
+```
+
+Or run inline:
+
+```bash
+HTTP_PROXY=http://proxy.company:8080 HTTPS_PROXY=http://proxy.company:8080 docker-compose up --build
+```
+
+Notes:
+- This is intentionally insecure (`NODE_TLS_REJECT_UNAUTHORIZED=0`, npm strict SSL disabled) and suitable only for local/dev or non-production use.
+- Pulling base images (`mongo`, `node`) still depends on Docker daemon network/proxy reachability.
 
 ### View logs
 ```bash
