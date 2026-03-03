@@ -1,0 +1,96 @@
+.gridHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 1rem 1rem;
+}
+
+.gridTitle {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.gridControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  align-items: flex-end;
+  color: white;
+}
+
+.gridControlGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 160px;
+
+  :global(.form-select) {
+    background-color: #222;
+    color: white;
+    border-color: #444;
+
+    &:hover {
+      border-color: #666;
+    }
+
+    &:focus {
+      background-color: #222;
+      color: white;
+      border-color: #888;
+    }
+
+    option {
+      background-color: #222;
+      color: white;
+    }
+  }
+}
+
+.gridControlLabel {
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: white;
+}
+
+.gridControlSummary {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 300px));
+  gap: 1.5rem;
+  width: 100%;
+  padding: 1rem;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.gridItem {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.gridItem :global(.postit-container) {
+  width: 300px;
+  height: auto;
+}
+
+.gridEmptyState {
+  text-align: center;
+  padding: 1rem 0 2rem;
+  color: rgba(255, 255, 255, 0.7);
+}

@@ -1,0 +1,24 @@
+.boxContain {
+    background: white;
+    height: 10rem;
+    border-radius: 8px;
+    padding: 0.2rem;
+    padding-left: 1rem;
+}
+
+.title {
+    color: black;
+    display: flex;
+    justify-content: space-between;
+}
+.pillBox {
+    height: 20;
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.actions {
+    display: flex;
+    justify-content: end;
+    margin-right: 0.7rem;
+}

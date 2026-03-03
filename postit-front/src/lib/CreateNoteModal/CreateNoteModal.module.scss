@@ -1,0 +1,15 @@
+.modalContainer {
+ background: rgb(42, 64, 69);
+ border-radius: 8px;
+ padding: 2rem;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: end;
+    margin-top: 3rem;
+    button {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+}

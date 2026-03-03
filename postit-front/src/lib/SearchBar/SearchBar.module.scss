@@ -1,0 +1,218 @@
+.searchBarContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 12px;
+    gap: 10px;
+  }
+}
+
+.searchBarContainer.darkMode {
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.searchInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 200px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  color: #6b7280;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.searchBarContainer.darkMode .searchIcon {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px 40px 10px 38px;
+  border: 2px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  outline: none;
+
+  &:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px 36px 8px 32px;
+    font-size: 14px;
+  }
+}
+
+.searchBarContainer.darkMode .searchInput {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+
+  &:focus {
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  }
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+.clearButton {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #ef4444;
+  }
+
+  &:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+.searchBarContainer.darkMode .clearButton {
+  color: rgba(255, 255, 255, 0.6);
+
+  &:hover {
+    color: #ff6b6b;
+  }
+
+  &:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.3);
+  }
+}
+
+.filterWrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.filterLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.searchBarContainer.darkMode .filterLabel {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.filterDropdown {
+  padding: 8px 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+
+  &:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  &:hover {
+    border-color: #d1d5db;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.searchBarContainer.darkMode .filterDropdown {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+
+  &:focus {
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  }
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+}
+
+.noResults {
+  padding: 12px;
+  text-align: center;
+  color: #6b7280;
+  background-color: #f9fafb;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.searchBarContainer.darkMode .noResults {
+  color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.resultsInfo {
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #4b5563;
+  background-color: #f0f4ff;
+  border-radius: 6px;
+  border-left: 3px solid #3b82f6;
+}
+
+.searchBarContainer.darkMode .resultsInfo {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.08);
+  border-left-color: rgba(255, 255, 255, 0.3);
+}

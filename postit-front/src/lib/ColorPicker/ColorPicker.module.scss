@@ -1,0 +1,14 @@
+.pickerContainer {
+  width: 16rem;
+  padding: 0.5rem;
+  overflow: hidden;
+}
+
+.selectorGroup {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: end;
+  button {
+    margin-left: 0.3rem;
+  }
+}

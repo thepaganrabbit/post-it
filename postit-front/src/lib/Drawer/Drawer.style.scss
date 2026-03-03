@@ -1,0 +1,10 @@
+.backdrop {
+    position: relative;
+    min-width: 100vw;
+    background: rgba(6, 67, 71, 0.422);
+}
+.drawer-container {
+    position: absolute;
+    z-index: 200;
+    background: rgba(4, 55, 59, 0.845);
+}
