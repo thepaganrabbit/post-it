@@ -3,15 +3,13 @@
 import { Container } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { PostItNote } from "@/types";
-import CreateNoteModal from "@/lib/CreateNoteModal/CreateNoteModal";
 import FloatingActionButton from "@/lib/FloatingActionButton/FloatingActionButton";
 import InProgressGrid from "@/lib/InProgressGrid/InProgressGrid";
-import { usePostItsNotes } from "@/store";
+import { usePostItsNotes, useCreatePostItModal } from "@/store";
 import { Bounce, toast } from "react-toastify";
 import SearchBar from "@/lib/SearchBar/SearchBar";
 
 export default function InProgressPage() {
-  const [showModal, setShowModal] = useState<boolean>(false);
   const [searchResults, setSearchResults] = useState<PostItNote[]>([]);
   const [sortBy, setInProgressSortBy] = useState<"priority">("priority");
 
@@ -20,6 +18,8 @@ export default function InProgressPage() {
   const setCompletion = usePostItsNotes((state) => state.setCompleted);
   const getPostIts = usePostItsNotes((state) => state.getPostIts);
   const tags = usePostItsNotes((state) => state.tags);
+  const showCreatePostItModal = useCreatePostItModal((state) => state.showCreatePostItModal);
+  const openCreatePostItModal = useCreatePostItModal((state) => state.openCreatePostItModal);
 
 
   useEffect(() => {
@@ -99,10 +99,6 @@ export default function InProgressPage() {
   const handleReorder = (reorderedPostIts: PostItNote[]) => {
     usePostItsNotes.setState({ postItsInProgress: reorderedPostIts });
   };
-  const handleCreateNote = async (newPostIt: Omit<PostItNote, "_id">) => {
-    await usePostItsNotes.getState().createPostIt(newPostIt);
-    await getPostIts({ sort: sortBy });
-  };
 
   return (
     <Container className="py-5">
@@ -123,10 +119,9 @@ export default function InProgressPage() {
         onReorder={handleReorder}
       />
       <FloatingActionButton
-        onClick={() => setShowModal(true)}
-        currentState={showModal}
+        onClick={() => openCreatePostItModal()}
+        currentState={showCreatePostItModal}
       />
-      {showModal && <CreateNoteModal action={handleCreateNote} modalState={showModal} setModalState={setShowModal} />}
     </Container>
   );
 }

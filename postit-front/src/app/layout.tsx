@@ -1,12 +1,24 @@
 // @ts-nocheck
 import type { Metadata } from "next";
-import "./fonts.css";
+import localFont from "next/font/local";
 import "./globals.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Drawer from "@/lib/Drawer/Drawer";
 import TopNav from "@/lib/TopNav/TopNav";
 import ClientProviders from "@/lib/ClientProviders/ClientProviders";
 import { ToastContainer, Bounce } from "react-toastify";
+
+const geistSans = localFont({
+  src: "./fonts/GeistLatin.woff2",
+  variable: "--font-geist-sans",
+  display: "swap",
+});
+
+const geistMono = localFont({
+  src: "./fonts/GeistMonoLatin.woff2",
+  variable: "--font-geist-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,8 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className="bg-black antialiased overflow-hidden"
-        style={{ fontFamily: 'var(--font-geist-sans)' }}
+        className={`${geistSans.className} ${geistSans.variable} ${geistMono.variable} bg-black antialiased overflow-hidden`}
       >
         <ClientProviders />
         <TopNav />

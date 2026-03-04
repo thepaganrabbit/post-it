@@ -1,12 +1,10 @@
 "use client";
 
 import { Container } from "react-bootstrap";
-import { useState } from "react";
 import { PostItBoardProps, PostItNote } from "@/types";
-import CreateNoteModal from "@/lib/CreateNoteModal/CreateNoteModal";
 import FloatingActionButton from "@/lib/FloatingActionButton/FloatingActionButton";
 import NotesGrid from "@/lib/NotesGrid/NotesGrid";
-import { usePostItsNotes } from "@/store";
+import { usePostItsNotes, useCreatePostItModal } from "@/store";
 
 export default function NoteBoard({
   postIts,
@@ -22,8 +20,9 @@ export default function NoteBoard({
   onDoubleClick,
   handleMarkInProgress,
 }: PostItBoardProps) {
-  const [showModal, setShowModal] = useState<boolean>(false);
   const pagination = usePostItsNotes((state) => state.pagination);
+  const showCreatePostItModal = useCreatePostItModal((state) => state.showCreatePostItModal);
+  const openCreatePostItModal = useCreatePostItModal((state) => state.openCreatePostItModal);
 
   const handleReorder = (reorderedPostIts: PostItNote[]) => {
     setPostIts(reorderedPostIts);
@@ -54,10 +53,9 @@ export default function NoteBoard({
         onDoubleClick={onDoubleClick}
       />
       <FloatingActionButton
-        onClick={() => setShowModal(true)}
-        currentState={showModal}
+        onClick={() => openCreatePostItModal()}
+        currentState={showCreatePostItModal}
       />
-      {showModal && <CreateNoteModal show={showModal} onShow={setShowModal} />}
     </Container>
   );
 }
