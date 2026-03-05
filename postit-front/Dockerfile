@@ -55,6 +55,9 @@ WORKDIR /app
 # Install dumb-init to handle signals properly
 RUN apk add --no-cache --no-check-certificate dumb-init
 
+# Install Next.js CLI globally
+RUN npm install -g next
+
 # Copy package files
 COPY --from=builder /app/package*.json ./
 
@@ -72,5 +75,5 @@ EXPOSE 3000
 # Use dumb-init to run the app
 ENTRYPOINT ["dumb-init", "--"]
 
-# Run the application using node directly to avoid npm overhead
-CMD ["node_modules/.bin/next", "start"]
+# Run the application
+CMD ["next", "start"]
