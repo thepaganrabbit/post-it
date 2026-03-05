@@ -2,7 +2,6 @@
 import { CreateNoteModalProps } from "@/types";
 import { wordCount } from "@/utils";
 import { format } from "date-fns/format";
-import { set } from "mongoose";
 import React, { useEffect, useState } from "react";
 import { Badge, Button, Form, Modal } from "react-bootstrap";
 import { FloppyFill, Save, X } from "react-bootstrap-icons";
