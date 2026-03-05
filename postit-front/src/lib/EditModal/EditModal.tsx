@@ -15,6 +15,7 @@ import {
   trimPunctuation,
 } from "@/utils";
 import Omit from "lodash.omit";
+import { THEME } from "@/theme";
 
 const EditModal = ({
   modalState,
@@ -55,17 +56,45 @@ const EditModal = ({
 
   const handleSubmit = () => {
     if (postIt) {
+      let colors = {
+        bgColor: THEME.postItColors.standard.bgColor,
+        foldColor: THEME.postItColors.standard.foldColor,
+      };
+      switch(priority) {
+        case 0: 
+          colors = {
+            bgColor: THEME.postItColors.standard.bgColor,
+            foldColor: THEME.postItColors.standard.foldColor,
+          }
+          break;
+        case 1: 
+          colors = {
+            bgColor: THEME.postItColors.important.bgColor,
+            foldColor: THEME.postItColors.important.foldColor,
+          } 
+          break;
+        case 2: 
+          colors = {
+            bgColor: THEME.postItColors.topPriority.bgColor,
+            foldColor: THEME.postItColors.topPriority.foldColor,
+          }
+          break;
+      }
       const cleanedPodstit = Omit(postIt, [
         "title",
         "description",
         "priority",
         "tags",
+        "bgColor",
+        "foldColor",
       ]);
       action({
         tags: trimPunctuation(extractTags(description)),
         title,
         description: processString(removeHash(description)),
         priority: Number(priority),
+        bgColor: colors.bgColor,
+        foldColor: colors.foldColor,
         ...cleanedPodstit,
       });
     }
