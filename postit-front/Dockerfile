@@ -55,13 +55,15 @@ WORKDIR /app
 # Install dumb-init to handle signals properly
 RUN apk add --no-cache --no-check-certificate dumb-init
 
-# Copy package files for reference
-COPY package*.json ./
+# Copy package files
+COPY --from=builder /app/package*.json ./
 
-# Copy built application from builder
+# Copy node_modules from builder
+COPY --from=builder /app/node_modules ./node_modules
+
+# Copy built application and config from builder
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/next.config.ts ./next.config.ts
 
 # Expose the port
@@ -70,5 +72,5 @@ EXPOSE 3000
 # Use dumb-init to run the app
 ENTRYPOINT ["dumb-init", "--"]
 
-# Run the application
-CMD ["npm", "start"]
+# Run the application using node directly to avoid npm overhead
+CMD ["node_modules/.bin/next", "start"]
