@@ -63,9 +63,6 @@ services:
         condition: service_healthy
     networks:
       - postit-network
-    volumes:
-      - ./postit-back/src:/app/src
-      - ./postit-back/node_modules:/app/node_modules
 
   # Next.js Frontend
   frontend:

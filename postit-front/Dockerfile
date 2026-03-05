@@ -55,14 +55,14 @@ WORKDIR /app
 # Install dumb-init to handle signals properly
 RUN apk add --no-cache --no-check-certificate dumb-init
 
-# Install only production dependencies
+# Copy package files for reference
 COPY package*.json ./
-RUN npm ci --only=production
 
 # Copy built application from builder
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/next.config.ts ./next.config.ts
 
 # Expose the port
 EXPOSE 3000
