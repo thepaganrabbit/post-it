@@ -11,6 +11,7 @@ import { CreatePostItDto } from './dto/create-postit.dto';
 import { UpdatePostItDto } from './dto/update-postit.dto';
 import { PostitCounts, ResponsePayload } from 'src/types';
 import { extractUniqueStrings } from 'src/utils';
+import { format } from 'date-fns';
 
 @Injectable()
 export class PostitService {
@@ -122,6 +123,14 @@ export class PostitService {
       }
       postIt.completed = !postIt.completed;
       postIt.inProgress = false;
+      
+      // Set or clear completedOn based on completion status
+      if (postIt.completed) {
+        postIt.completedOn = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
+      } else {
+        postIt.completedOn = null;
+      }
+      
       await postIt.save();
     } catch (error) {
       throw new HttpException(

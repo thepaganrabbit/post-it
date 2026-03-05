@@ -53,12 +53,7 @@ const Archive = () => {
         theme: "dark",
         transition: Bounce,
       });
-      if (!postIts) return;
-      usePostItsNotes.setState({
-        completedPostIts: postIts.map((postIt) =>
-          postIt._id === id ? { ...postIt, completed: !postIt.completed } : postIt,
-        ),
-      });
+      await getPostIts({ page, limit: pageSize, sort: sortBy });
     } else {
       toast("Unable to take post-it out of progress!", {
         autoClose: 5000,

@@ -29,19 +29,29 @@ const EditModal = ({
   const titleRef = React.useRef<HTMLInputElement | null>(null);
 
   const postIts = usePostItsNotes((state) => state.postIts);
+  const postItsInProgress = usePostItsNotes((state) => state.postItsInProgress);
   const isLoading = usePostItsNotes((state) => state.isLoading);
 
   useEffect(() => {
+    let postItToEdit = null;
+    
+    // Check in postIts list first
     if (postIts && postIts.length > 0) {
-      const postItToEdit = postIts?.filter((postIt) => postIt._id === id)[0];
-      if (postItToEdit) {
-        setPostIt(postItToEdit);
-        setTitle(postItToEdit.title || "");
-        setDescription(postItToEdit.description || "");
-        setPriority(postItToEdit.priority || 0);
-      }
+      postItToEdit = postIts.find((postIt) => postIt._id === id);
     }
-  }, [postIts]);
+    
+    // If not found, check in postItsInProgress list
+    if (!postItToEdit && postItsInProgress && postItsInProgress.length > 0) {
+      postItToEdit = postItsInProgress.find((postIt) => postIt._id === id);
+    }
+    
+    if (postItToEdit) {
+      setPostIt(postItToEdit);
+      setTitle(postItToEdit.title || "");
+      setDescription(postItToEdit.description || "");
+      setPriority(postItToEdit.priority || 0);
+    }
+  }, [postIts, postItsInProgress, id]);
 
   const handleSubmit = () => {
     if (postIt) {

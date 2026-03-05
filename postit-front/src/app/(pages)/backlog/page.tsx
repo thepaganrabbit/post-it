@@ -63,19 +63,7 @@ const Backlog = () => {
         theme: "dark",
         transition: Bounce,
       });
-      if (searchResults.length > 0) {
-        setSearchResults(
-          searchResults.map((postIt) =>
-            postIt._id === id ? { ...postIt, completed: !postIt.completed } : postIt,
-          ),
-        );
-      }
-      if (!postIts) return;
-      usePostItsNotes.setState({
-        postIts: postIts.map((postIt) =>
-          postIt._id === id ? { ...postIt, completed: !postIt.completed } : postIt,
-        ),
-      });
+      await getPostIts({ page, limit: pageSize, sort: sortBy });
     } else {
       toast("Unable to take post-it out of progress!", {
         autoClose: 5000,

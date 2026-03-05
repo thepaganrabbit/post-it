@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import { PostItNote } from "@/types";
 import FloatingActionButton from "@/lib/FloatingActionButton/FloatingActionButton";
 import InProgressGrid from "@/lib/InProgressGrid/InProgressGrid";
-import { usePostItsNotes, useCreatePostItModal } from "@/store";
+import EditModal from "@/lib/EditModal/EditModal";
+import { usePostItsNotes, useCreatePostItModal, useEditModal } from "@/store";
 import { Bounce, toast } from "react-toastify";
 import SearchBar from "@/lib/SearchBar/SearchBar";
 
@@ -17,9 +18,15 @@ export default function InProgressPage() {
   const setInProgress = usePostItsNotes((state) => state.setInProgress);
   const setCompletion = usePostItsNotes((state) => state.setCompleted);
   const getPostIts = usePostItsNotes((state) => state.getPostIts);
+  const editPostIt = usePostItsNotes((state) => state.editPostIt);
   const tags = usePostItsNotes((state) => state.tags);
   const showCreatePostItModal = useCreatePostItModal((state) => state.showCreatePostItModal);
   const openCreatePostItModal = useCreatePostItModal((state) => state.openCreatePostItModal);
+  
+  const engageModal = useEditModal((state) => state.engageModalState);
+  const disengageModal = useEditModal((state) => state.closeModal);
+  const modalState = useEditModal((state) => state.modalState);
+  const postitToEdit = useEditModal((state) => state.postitId);
 
 
   useEffect(() => {
@@ -100,28 +107,68 @@ export default function InProgressPage() {
     usePostItsNotes.setState({ postItsInProgress: reorderedPostIts });
   };
 
+  const handleEditModal = (id: string) => {
+    engageModal(true, id);
+  };
+
   return (
-    <Container className="py-5">
-       <SearchBar
-        postIts={postItsFromApi || []}
-        tags={tags || []}
-        onSearchChange={setSearchResults}
-        placeholder="Search your postIts..."
-        darkMode={true}
-      />
-      <InProgressGrid
-        postIts={searchResults.length > 0 ? searchResults : postItsFromApi || []}
-        sortBy={sortBy}
-        onSortChange={setInProgressSortBy}
-        onDelete={handleDelete}
-        onComplete={handleComplete}
-        onMarkInProgress={handleMarkInProgress}
-        onReorder={handleReorder}
-      />
-      <FloatingActionButton
-        onClick={() => openCreatePostItModal()}
-        currentState={showCreatePostItModal}
-      />
-    </Container>
+    <>
+      {modalState && modalState === true && (
+        <EditModal
+          modalState={modalState}
+          setModalState={disengageModal}
+          action={async (postIt: PostItNote) => {
+            const success = await editPostIt(postIt);
+            if (success) {
+              toast("Post-it was updated", {
+                autoClose: 5000,
+                closeOnClick: true,
+                type: "success",
+                pauseOnHover: true,
+                draggable: true,
+                theme: "dark",
+                transition: Bounce,
+              });
+              await getPostIts({ sort: sortBy });
+              disengageModal();
+            } else {
+              toast("Unable to update postit!", {
+                autoClose: 5000,
+                closeOnClick: true,
+                type: "error",
+                pauseOnHover: true,
+                draggable: true,
+                theme: "dark",
+                transition: Bounce,
+              });
+            }
+          }}
+          id={postitToEdit}
+        />
+      )}
+      <Container className="py-5">
+        <SearchBar
+          postIts={postItsFromApi || []}
+          tags={tags || []}
+          onSearchChange={setSearchResults}
+          placeholder="Search your postIts..."
+          darkMode={true}
+        />
+        <InProgressGrid
+          postIts={searchResults.length > 0 ? searchResults : postItsFromApi || []}
+          sortBy={sortBy}
+          onSortChange={setInProgressSortBy}
+          onDelete={handleDelete}
+          onComplete={handleComplete}
+          onMarkInProgress={handleMarkInProgress}
+          onDoubleClick={handleEditModal}
+          onReorder={handleReorder}
+        />
+        <FloatingActionButton
+          onClick={() => openCreatePostItModal()}
+          currentState={showCreatePostItModal}
+        />
+      </Container>
+    </>
   );
 }

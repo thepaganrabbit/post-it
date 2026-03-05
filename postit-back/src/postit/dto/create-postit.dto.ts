@@ -17,6 +17,10 @@ export class CreatePostItDto {
   completed?: boolean;
 
   @IsOptional()
+  @IsString()
+  completedOn?: string | null;
+
+  @IsOptional()
   @IsBoolean()
   dismissed?: boolean;
 

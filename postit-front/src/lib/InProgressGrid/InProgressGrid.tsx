@@ -2,7 +2,7 @@
 
 import { Form } from "react-bootstrap";
 import PostIt from "@/lib/PostIt/PostIt";
-import { PostItNote } from "@/types";
+import { PostItNote, SortableItemProps } from "@/types";
 import styles from "./InProgressGrid.module.scss";
 import {
   DndContext,
@@ -22,14 +22,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 
-interface SortableItemProps {
-  postIt: PostItNote;
-  onDelete?: (id: string) => void;
-  onComplete?: (id: string) => void;
-  onMarkInProgress?: (id: string) => void;
-}
-
-const SortableItem = ({ postIt, onDelete, onComplete, onMarkInProgress }: SortableItemProps) => {
+const SortableItem = ({ postIt, onDelete, onComplete, onMarkInProgress, onDoubleClick }: SortableItemProps) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id: postIt._id });
 
@@ -52,6 +45,7 @@ const SortableItem = ({ postIt, onDelete, onComplete, onMarkInProgress }: Sortab
         onDelete={onDelete ?? (() => undefined)}
         onComplete={onComplete ?? (() => undefined)}
         onMarkInProgress={onMarkInProgress ?? (() => undefined)}
+        onDoubleClick={onDoubleClick ?? (() => undefined)}
       />
     </div>
   );
@@ -64,6 +58,7 @@ export interface InProgressGridProps {
   onDelete?: (id: string) => void;
   onComplete?: (id: string) => void;
   onMarkInProgress?: (id: string) => void;
+  onDoubleClick?: (id: string) => void;
   onReorder?: (postIts: PostItNote[]) => void;
 }
 
@@ -74,6 +69,7 @@ const InProgressGrid = ({
   onDelete,
   onComplete,
   onMarkInProgress,
+  onDoubleClick,
   onReorder,
 }: InProgressGridProps) => {
   const sensors = useSensors(
@@ -141,6 +137,7 @@ const InProgressGrid = ({
                   onDelete={onDelete}
                   onComplete={onComplete}
                   onMarkInProgress={onMarkInProgress}
+                  onDoubleClick={onDoubleClick ?? (() => undefined)}
                 />
               );
             })}

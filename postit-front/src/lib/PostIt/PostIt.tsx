@@ -12,6 +12,7 @@ const PostIt: React.FC<PostItProps> = ({
   description,
   priority = 0,
   completed = false,
+  completedOn,
   inProgress = false,
   bgColor = "#fef08a",
   foldColor = "#d4a517",
@@ -110,6 +111,11 @@ const PostIt: React.FC<PostItProps> = ({
           </span>
         </div>
         <p className={`postit-description ${priority === 2 ? 'priority-txt' : 'standard-txt'}`}>{description}</p>
+        {completed && completedOn && (
+          <div className="postit-completed-date">
+            Completed: {format(new Date(completedOn), "MM/dd/yyyy")}
+          </div>
+        )}
       </div>
       {/* Tags */}
       <div className="postit-tags">

@@ -104,6 +104,7 @@ export interface PostItNote {
   description: string;
   priority?: number;
   completed?: boolean;
+  completedOn?: string | null;
   inProgress?: boolean;
   dismissed?:boolean; 
   bgColor?: string;
@@ -200,6 +201,10 @@ export interface NoteChipProps extends SharedActions {
   id?: string;
   title: string;
   date: string;
+}
+
+export interface NotePageProps {
+  displayTitle: boolean;
 }
 
 export interface NotePadProps {

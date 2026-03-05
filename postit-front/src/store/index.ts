@@ -227,7 +227,7 @@ export const useNote = create<UseNoteState>((set, get) => ({
         notes: data.payload,
       });
       toast("Notes were retrieved", {
-        autoClose: 5000,
+        autoClose: 1000,
         closeOnClick: true,
         type: "success",
         pauseOnHover: true,

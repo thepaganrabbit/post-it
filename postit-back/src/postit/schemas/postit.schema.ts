@@ -18,6 +18,9 @@ export class PostIt {
   @Prop({ default: false })
   completed?: boolean;
 
+  @Prop({ type: String, default: null })
+  completedOn?: string | null;
+
   @Prop({ default: false })
   dismissed?: boolean;
 
