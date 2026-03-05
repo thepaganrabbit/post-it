@@ -22,6 +22,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
+RUN npm install -g next react react-dom
+
 # Install dependencies
 RUN npm ci
 
@@ -56,7 +58,7 @@ WORKDIR /app
 RUN apk add --no-cache --no-check-certificate dumb-init
 
 # Install Next.js CLI globally
-RUN npm install -g next
+RUN npm -g install next react react-dom
 
 # Copy package files
 COPY --from=builder /app/package*.json ./
